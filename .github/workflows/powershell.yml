@@ -2,9 +2,11 @@ name: PSScriptAnalyzer
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
@@ -21,15 +23,19 @@ jobs:
       - name: Install PSScriptAnalyzer
         shell: pwsh
         run: |
-          Install-Module PSScriptAnalyzer -Force -Scope CurrentUser
+          Install-Module PSScriptAnalyzer -Force -Scope CurrentUser -Repository PSGallery
 
       - name: Run PSScriptAnalyzer
         shell: pwsh
         run: |
           $settingsPath = Join-Path $PWD "PSScriptAnalyzerSettings.psd1"
 
+          if (-not (Test-Path $settingsPath)) {
+              throw "PSScriptAnalyzerSettings.psd1 not found in repository root."
+          }
+
           $files = Get-ChildItem -Path $PWD -Recurse -File | Where-Object {
-              $_.Extension -in '.ps1', '.psm1', '.psd1' -and
+              $_.Extension -in @('.ps1', '.psm1') -and
               $_.FullName -notmatch '[\\/]\.git[\\/]' -and
               $_.FullName -notmatch '[\\/]\.github[\\/]' -and
               $_.FullName -notmatch '[\\/]\.vscode[\\/]' -and
@@ -44,13 +50,18 @@ jobs:
           Write-Host "Analyzing the following files:"
           $files | ForEach-Object { Write-Host $_.FullName }
 
-          $results = Invoke-ScriptAnalyzer `
-            -Path ($files.FullName) `
-            -Settings $settingsPath `
-            -Recurse:$false
+          $allResults = @()
 
-          if ($results) {
-              $results | Format-Table -AutoSize
+          foreach ($file in $files) {
+              $results = Invoke-ScriptAnalyzer -Path $file.FullName -Settings $settingsPath
+
+              if ($null -ne $results) {
+                  $allResults += $results
+              }
+          }
+
+          if ($allResults.Count -gt 0) {
+              $allResults | Format-Table RuleName, Severity, ScriptName, Line, Message -AutoSize
               throw "PSScriptAnalyzer found issues."
           }
 
