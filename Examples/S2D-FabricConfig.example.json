@@ -1,0 +1,32 @@
+{
+  "_Comment": "Example - replace with real values",
+  "Environment": {
+    "FabricVLAN": 100,
+    "FabricPrefixLength": 27,
+    "FabricGateway": "10.xxx.xxx.01",
+    "FabricDNS": [
+      "10.xxx.xxx.02",
+      "10.xxx.xxx.03"
+    ],
+    "RDMAVlan": 4000,
+    "RDMAPrefixLength": 24,
+    "Domain": {
+      "Name": "corp.example.com",
+      "OUPath": "OU=S2D,OU=Servers,DC=corp,DC=example,DC=com"
+    }
+  },
+  "Servers": {
+    "CZXYZ1": {
+      "ServerName": "HyperV-01",
+      "FabricIP": "10.xxx.xxx.10",
+      "RDMA1IP": "192.xxx.xxx.10",
+      "RDMA2IP": "192.xxx.xxx.11"
+    },
+    "CZXYZ2": {
+      "ServerName": "HyperV-02",
+      "FabricIP": "10.xxx.xxx.11",
+      "RDMA1IP": "192.xxx.xxx.11",
+      "RDMA2IP": "192.xxx.xxx.11"
+    }
+  }
+}

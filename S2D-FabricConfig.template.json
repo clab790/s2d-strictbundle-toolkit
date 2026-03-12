@@ -1,0 +1,37 @@
+{
+  "_Comment": "S2D PROD - Environment Template - v1.0.6",
+
+  "Environment": {
+    "FabricVLAN": 111,
+    "FabricPrefixLength": 27,
+    "FabricGateway": "10.xx.xx.01",
+    "FabricDNS": [
+      "10.xxx.xx.02",
+      "10.xxx.xx.03"
+    ],
+
+    "RDMAVlan": 4000,
+    "RDMAPrefixLength": 24,
+
+    "Domain": {
+      "Name": "corp.example.se",
+      "OUPath": "OU=S2D,OU=Servers,DC=corp,DC=example,DC=com"
+    }
+  },
+
+  "Servers": {
+    "SERIALNUMBER1": {
+      "ServerName": "HyperV-01",
+      "FabricIP": "10.xxx.xxx.04",
+      "RDMA1IP": "192.xxx.xxx.10",
+      "RDMA2IP": "192.xxx.xxx.11"
+    },
+
+    "SERIALNUMBER2": {
+      "ServerName": "HyperV-02",
+      "FabricIP": "10.xxx.xxx.05",
+      "RDMA1IP": "192.xxx.xxx.12",
+      "RDMA2IP": "192.xxx.xxx.13"
+    }
+  }
+}

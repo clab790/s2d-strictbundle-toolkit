@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "s2d-fabricconfig.schema.strict.json",
+  "title": "S2D FabricConfig (Strict)",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "_Comment": {
+      "type": "string",
+      "description": "Fri kommentar/metadata"
+    },
+    "Environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "FabricVLAN": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4094
+        },
+        "FabricPrefixLength": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 32
+        },
+        "FabricGateway": {
+          "type": "string",
+          "format": "ipv4"
+        },
+        "FabricDNS": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "format": "ipv4"
+          }
+        },
+        "RDMAVlan": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4094
+        },
+        "RDMAPrefixLength": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 32
+        },
+        "Domain": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "Name": {
+              "type": "string",
+              "minLength": 3,
+              "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?:\\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)+$",
+              "description": "FQDN, t.ex. corp.example.se"
+            },
+            "OUPath": {
+              "type": "string",
+              "minLength": 10,
+              "pattern": "^(?:OU=[^,=]+,)+DC=[^,=]+,DC=[^,=]+(?:,DC=[^,=]+)*$",
+              "description": "DistinguishedName, t.ex. OU=S2D,OU=Servers,DC=corp,DC=example,DC=se"
+            }
+          },
+          "required": [
+            "Name",
+            "OUPath"
+          ]
+        }
+      },
+      "required": [
+        "FabricVLAN",
+        "FabricPrefixLength",
+        "FabricGateway",
+        "FabricDNS",
+        "RDMAVlan",
+        "RDMAPrefixLength"
+      ]
+    },
+    "Servers": {
+      "type": "object",
+      "minProperties": 1,
+      "patternProperties": {
+        "^[A-Za-z0-9\\-]{3,32}$": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "ServerName": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9\\-]{1,15}$",
+              "description": "NetBIOS, max 15 tecken"
+            },
+            "FabricIP": {
+              "type": "string",
+              "format": "ipv4"
+            },
+            "RDMA1IP": {
+              "type": "string",
+              "format": "ipv4"
+            },
+            "RDMA2IP": {
+              "type": "string",
+              "format": "ipv4"
+            }
+          },
+          "required": [
+            "ServerName",
+            "FabricIP",
+            "RDMA1IP",
+            "RDMA2IP"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "Environment",
+    "Servers"
+  ]
+}

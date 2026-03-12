@@ -1,0 +1,9 @@
+# Read-only Control
+powershell.exe -ExecutionPolicy Bypass -File .\S2D-FabricConfig_v1.0.39.ps1 -Mode Preflight
+
+# Full-run
+powershell.exe -ExecutionPolicy Bypass -File .\S2D-FabricConfig_v1.0.39.ps1 -Mode All
+
+
+# Performance tuning
+powershell.exe -ExecutionPolicy Bypass -File .\S2D-FabricConfig_v1.0.39.ps1 -Mode PerfTune
