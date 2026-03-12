@@ -1,0 +1,57 @@
+name: PSScriptAnalyzer
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install PSScriptAnalyzer
+        shell: pwsh
+        run: |
+          Install-Module PSScriptAnalyzer -Force -Scope CurrentUser
+
+      - name: Run PSScriptAnalyzer
+        shell: pwsh
+        run: |
+          $settingsPath = Join-Path $PWD "PSScriptAnalyzerSettings.psd1"
+
+          $files = Get-ChildItem -Path $PWD -Recurse -File | Where-Object {
+              $_.Extension -in '.ps1', '.psm1', '.psd1' -and
+              $_.FullName -notmatch '[\\/]\.git[\\/]' -and
+              $_.FullName -notmatch '[\\/]\.github[\\/]' -and
+              $_.FullName -notmatch '[\\/]\.vscode[\\/]' -and
+              $_.FullName -notmatch '[\\/]Examples[\\/]'
+          }
+
+          if (-not $files) {
+              Write-Host "No PowerShell files found to analyze."
+              exit 0
+          }
+
+          Write-Host "Analyzing the following files:"
+          $files | ForEach-Object { Write-Host $_.FullName }
+
+          $results = Invoke-ScriptAnalyzer `
+            -Path ($files.FullName) `
+            -Settings $settingsPath `
+            -Recurse:$false
+
+          if ($results) {
+              $results | Format-Table -AutoSize
+              throw "PSScriptAnalyzer found issues."
+          }
+
+          Write-Host "PSScriptAnalyzer completed successfully."
