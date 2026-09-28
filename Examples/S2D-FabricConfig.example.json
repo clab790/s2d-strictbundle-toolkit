@@ -1,12 +1,12 @@
 {
-  "_Comment": "Example - replace with real values",
+  "_Comment": "Example addresses only; replace all IPs and serials before deployment",
   "Environment": {
     "FabricVLAN": 100,
     "FabricPrefixLength": 27,
-    "FabricGateway": "10.xxx.xxx.01",
+    "FabricGateway": "203.0.113.1",
     "FabricDNS": [
-      "10.xxx.xxx.02",
-      "10.xxx.xxx.03"
+      "203.0.113.2",
+      "203.0.113.3"
     ],
     "RDMAVlan": 4000,
     "RDMAPrefixLength": 24,
@@ -18,15 +18,15 @@
   "Servers": {
     "CZXYZ1": {
       "ServerName": "HyperV-01",
-      "FabricIP": "10.xxx.xxx.10",
-      "RDMA1IP": "192.xxx.xxx.10",
-      "RDMA2IP": "192.xxx.xxx.11"
+      "FabricIP": "203.0.113.10",
+      "RDMA1IP": "198.51.100.10",
+      "RDMA2IP": "198.51.100.11"
     },
     "CZXYZ2": {
       "ServerName": "HyperV-02",
-      "FabricIP": "10.xxx.xxx.11",
-      "RDMA1IP": "192.xxx.xxx.11",
-      "RDMA2IP": "192.xxx.xxx.11"
+      "FabricIP": "203.0.113.11",
+      "RDMA1IP": "198.51.100.12",
+      "RDMA2IP": "198.51.100.13"
     }
   }
 }

@@ -46,6 +46,12 @@
           "minimum": 1,
           "maximum": 32
         },
+        "TimeZoneId": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S",
+          "description": "Optional Windows time zone ID; default is W. Europe Standard Time"
+        },
         "Domain": {
           "type": "object",
           "additionalProperties": false,

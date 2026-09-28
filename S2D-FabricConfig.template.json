@@ -1,13 +1,13 @@
 {
-  "_Comment": "S2D PROD - Environment Template - v1.0.6",
+  "_Comment": "Example addresses only; replace all IPs and serials before deployment (v1.0.40)",
 
   "Environment": {
     "FabricVLAN": 111,
     "FabricPrefixLength": 27,
-    "FabricGateway": "10.xx.xx.01",
+    "FabricGateway": "192.0.2.1",
     "FabricDNS": [
-      "10.xxx.xx.02",
-      "10.xxx.xx.03"
+      "192.0.2.2",
+      "192.0.2.3"
     ],
 
     "RDMAVlan": 4000,
@@ -15,23 +15,23 @@
 
     "Domain": {
       "Name": "corp.example.se",
-      "OUPath": "OU=S2D,OU=Servers,DC=corp,DC=example,DC=com"
+      "OUPath": "OU=S2D,OU=Servers,DC=corp,DC=example,DC=se"
     }
   },
 
   "Servers": {
     "SERIALNUMBER1": {
       "ServerName": "HyperV-01",
-      "FabricIP": "10.xxx.xxx.04",
-      "RDMA1IP": "192.xxx.xxx.10",
-      "RDMA2IP": "192.xxx.xxx.11"
+      "FabricIP": "192.0.2.4",
+      "RDMA1IP": "198.51.100.10",
+      "RDMA2IP": "198.51.100.11"
     },
 
     "SERIALNUMBER2": {
       "ServerName": "HyperV-02",
-      "FabricIP": "10.xxx.xxx.05",
-      "RDMA1IP": "192.xxx.xxx.12",
-      "RDMA2IP": "192.xxx.xxx.13"
+      "FabricIP": "192.0.2.5",
+      "RDMA1IP": "198.51.100.12",
+      "RDMA2IP": "198.51.100.13"
     }
   }
 }
