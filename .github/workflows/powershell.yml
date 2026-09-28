@@ -53,6 +53,24 @@ jobs:
           $allResults = @()
 
           foreach ($file in $files) {
+              # Check syntax separately so it remains a hard gate even when
+              # the analyzer profile filters diagnostic severities.
+              $tokens = $null
+              $parseErrors = $null
+              [System.Management.Automation.Language.Parser]::ParseFile(
+                  $file.FullName, [ref]$tokens, [ref]$parseErrors
+              ) | Out-Null
+
+              if ($parseErrors) {
+                  foreach ($parseError in $parseErrors) {
+                      Write-Host ("{0}:{1}:{2}: {3}" -f $file.Name,
+                          $parseError.Extent.StartLineNumber,
+                          $parseError.Extent.StartColumnNumber,
+                          $parseError.Message)
+                  }
+                  throw "PowerShell parse errors found."
+              }
+
               $results = Invoke-ScriptAnalyzer -Path $file.FullName -Settings $settingsPath
 
               if ($null -ne $results) {
